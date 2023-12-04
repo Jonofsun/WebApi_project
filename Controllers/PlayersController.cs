@@ -11,7 +11,7 @@ namespace WebApi_project.Controllers
     public class PlayersController : ControllerBase
     {
         string connectionString;
-        public PlayerController(IConfiguration configuration)
+        public PlayersController (IConfiguration configuration)
         {
             connectionString = configuration.GetConnectionString("DefaultConnection");
         }

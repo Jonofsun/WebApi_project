@@ -21,7 +21,7 @@ namespace WebApi_project.Controllers
         public ActionResult<List<PlayerLogin>> GetAllPlayerLogin()
         {
             using SqlConnection connection = new SqlConnection(connectionString);
-            List<PlayersLogin> playerLogin = connection.Query<PlayerLogin>("Select * from RPG.PlayerLogin").ToList();
+            List<PlayerLogin> playerLogin = connection.Query<PlayerLogin>("Select * from RPG.PlayerLogin").ToList();
             return Ok(playerLogin);
         }
         //get with an id
@@ -34,11 +34,11 @@ namespace WebApi_project.Controllers
             }
             using SqlConnection connection = new SqlConnection(connectionString);
             PlayerLogin playerlogin = connection.QueryFirstOrDefault<PlayerLogin>("SELECT * FROM RPG.PlayerLogin WHERE PlayerLoginID = @Id", new {Id = id});
-            if(playerLogin == null)
+            if(playerlogin == null)
             {
                 return NotFound();
             }
-            return Ok(playerLogin);
+            return Ok(playerlogin);
         }
         //POST - Create
         //Put - Update
@@ -53,7 +53,7 @@ namespace WebApi_project.Controllers
                 //SCOPE_IDENTITY() this gets you the primary key of the newly created object
                 PlayerLogin newPlayerLogin = connection.QuerySingle<PlayerLogin>(
                     "INSERT INTO RPG.PlayerLogin (UserName, Email, LoginDate) VALUES (@UserName, @Email, @LoginDate); " +
-                    "SELECT * FROM RPG.PlayerLogin WHERE PlayerLoginID = SCOPE_IDENTITY();", playersLogin);
+                    "SELECT * FROM RPG.PlayerLogin WHERE PlayerLoginID = SCOPE_IDENTITY();", playerLogin);
                 return Ok(newPlayerLogin);
             }
             catch (Exception ex)

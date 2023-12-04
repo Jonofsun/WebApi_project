@@ -8,7 +8,7 @@ public class Players
 
     public string Level {get; set;}
 
-    public DateTime RegistrationDate {get; set}
+    public DateTime RegistrationDate {get; set;}
 
     public int LocationID {get; set;}
 
