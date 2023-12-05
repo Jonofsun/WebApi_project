@@ -4,9 +4,11 @@ public class Players
 {
     public int PlayerID {get; set;}
 
-    public string Name {get; set;}
+    public string PlayerName {get; set;}
 
-    public string Level {get; set;}
+    public string Class { get; set; }
+
+    public int PlayerLevel {get; set;}
 
     public DateTime RegistrationDate {get; set;}
 

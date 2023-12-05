@@ -52,7 +52,7 @@ namespace WebApi_project.Controllers
             {
                 //SCOPE_IDENTITY() this gets you the primary key of the newly created object
                 PlayerLogin newPlayerLogin = connection.QuerySingle<PlayerLogin>(
-                    "INSERT INTO RPG.PlayerLogin (UserName, Email, LoginDate) VALUES (@UserName, @Email, @LoginDate); " +
+                    "INSERT INTO RPG.PlayerLogin (PlayerLoginID, UserName, Email, LoginDate) VALUES (@PlayerLoginID, @UserName, @Email, @LoginDate); " +
                     "SELECT * FROM RPG.PlayerLogin WHERE PlayerLoginID = SCOPE_IDENTITY();", playerLogin);
                 return Ok(newPlayerLogin);
             }
@@ -74,7 +74,7 @@ namespace WebApi_project.Controllers
             using SqlConnection connection = new SqlConnection(connectionString);
             //Put - You have to send ALL of the information whether it changed or not
             int rowsAffected = connection.Execute("UPDATE RPG.PlayerLogin " +
-                "SET UserName = @UserName, Email = @Email, LoginDate = @LoginDate " +
+                "SET PlayerLoginID = @PlayerLoginID, UserName = @UserName, Email = @Email, LoginDate = @LoginDate " +
                 "WHERE PlayerLoginID = @PlayerLoginID", playerLogin);
             if(rowsAffected == 0)
             {

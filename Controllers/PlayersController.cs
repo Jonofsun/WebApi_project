@@ -62,7 +62,7 @@ namespace WebApi_project.Controllers
             {
                 //SCOPE_IDENTITY() this gets you the primary key of the newly created object
                 Players newPlayers = connection.QuerySingle<Players>(
-                    "INSERT INTO RPG.Players ([Name], Class, [Level], RegistrationDate, LocationID, PlayerLoginID) VALUES (@[Name], @Class, @[Level], @RegistrationDate, @LocationID, @PlayerLoginID); " +
+                    "INSERT INTO RPG.Players (PlayerName, Class, PlayerLevel, RegistrationDate, LocationID, PlayerLoginID) VALUES (@PlayerName, @Class, @PlayerLevel, @RegistrationDate, @LocationID, @PlayerLoginID); " +
                     "SELECT * FROM RPG.Players WHERE PlayerID = SCOPE_IDENTITY();", players);
                 return Ok(newPlayers);
             }
@@ -85,16 +85,21 @@ namespace WebApi_project.Controllers
             
             PlayerLogin playerLogin = connection.QueryFirstOrDefault<PlayerLogin>("SELECT * FROM RPG.PlayerLogin " +
             "WHERE PlayerLoginID = @Id", new { Id = players.PlayerLoginID });
+
             if (playerLogin == null)
             {
                 return BadRequest();
             }
+
             try
             {
-                Players updatedPlayers = connection.QuerySingle<Players>(
-                "UPDATE RPG.Players SET [Name] = @[Name], Class = @Class, [Level] = @[Level], RegistrationDate = @RegistrationDate, LocationID = @LocationID, PlayerLoginID = @PlayerLoginID" +
-                "WHERE PlayerId = @PlayerId", players);
-                return Ok(updatedPlayers);
+                int rowsAffected = connection.Execute("UPDATE RPG.Players SET PlayerName = @PlayerName, Class = @Class, PlayerLevel = @PlayerLevel, RegistrationDate = @RegistrationDate, LocationID = @LocationID, PlayerLoginID = @PlayerLoginID " +
+                "WHERE PlayerID = @PlayerID", players);
+                if(rowsAffected == 0)
+                {
+                    return BadRequest();
+                }
+                return Ok(players);
             }
             catch (Exception ex)
             {
