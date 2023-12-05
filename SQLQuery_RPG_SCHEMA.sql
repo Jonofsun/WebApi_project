@@ -164,6 +164,8 @@ BEGIN
 END;
 GO
 SELECT * FROM RPG.PlayerHistory
+SELECT * FROM RPG.Players
+SELECT * FROM RPG.PlayerLogin
 -- API LOGIN
 -- run on master
 CREATE LOGIN RPG_Web_API WITH PASSWORD = 'abc@1234';
@@ -211,6 +213,8 @@ BEGIN
 END;
 
 GO
+
+GO
 CREATE PROCEDURE RPG.GetQuestLocations
     @QuestID INT
 AS
@@ -232,7 +236,7 @@ AS
 BEGIN
     SELECT 
         p.PlayerID, 
-        p.Name AS PlayerName,
+        p.PlayerName AS CharacterName,
         q.QuestID,
         q.Name AS QuestName,
         i.ItemID,
@@ -250,4 +254,16 @@ BEGIN
         p.PlayerID = @PlayerID;
 END;
 GO
+EXEC RPG.GetPlayerQuestItems @PlayerID = 1;
+EXEC RPG.GetQuestLocations @QuestID = 2;
+EXEC RPG.GetPlayerItems @PlayerID = 2;
+EXEC RPG.GetPlayerQuests @PlayerID = 4;
+GO
+CREATE INDEX idx_RPG_Email ON RPG.PlayerLogin(Email);
+GO
+CREATE INDEX idx_RPG_PlayerLogin ON RPG.PlayerLogin(PlayerLoginID);
+GO
+CREATE INDEX idx_RPG_Player ON RPG.Players(PlayerID);
+GO
+
 

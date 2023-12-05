@@ -117,7 +117,7 @@ namespace WebApi_project.Controllers
                 return NotFound();
             }
             using SqlConnection connection = new SqlConnection(connectionString);
-            int rowsAffected = connection.Execute("DELETE FROM RPG.Players WHERE PlayersID = @Id", new { Id = id });
+            int rowsAffected = connection.Execute("DELETE FROM RPG.Players WHERE PlayerID = @Id", new { Id = id });
             if(rowsAffected == 0)
             {
                 return BadRequest();
